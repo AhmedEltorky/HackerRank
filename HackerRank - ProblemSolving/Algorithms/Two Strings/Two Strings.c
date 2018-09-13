@@ -8,10 +8,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-FILE* fptr;
 char* readline();
 
-// Complete the encryption function below.
+// Complete the twoStrings function below.
 
 // Please either make the string static or allocate on the heap. For example,
 // static char str[] = "hello world";
@@ -22,36 +21,44 @@ char* readline();
 // char* str = "hello world";
 // return str;
 //
-char* encryption(char* s) {
-    int l = sqrt(strlen(s));
-    if (l*l != strlen(s)){
-        l+=1;        
-    }
-    static char *ans;
-    ans = malloc((strlen(s) * sizeof(char) + l - 1));
-    int index = 0;
+char* twoStrings(char* s1, char* s2) {
+    char* check = "abcdefghijklmnopqrstuvwxyz";
     
-    for (int i = 0;i < l;i++){
-        for (int j = i;j < strlen(s);j+=l){
-            ans[index] = s[j];
-            index++;
+    for (int i = 0;i < 26;i++){
+        for (int j = 0;j < strlen(s1);j++){
+            if (check[i] == s1[j]){
+                for (int k = 0;k < strlen(s2);k++){
+                    if (check[i] == s2[k]){
+                        return "YES";                        
+                    }
+                }
+                break;
+            }
         }
-        ans[index] = ' ';
-        index++;            
     }
-    ans[index] = '\0';
-    return ans;
+    
+    return "NO";
 }
 
 int main()
 {
-    fptr = fopen(getenv("OUTPUT_PATH"), "w");
+    FILE* fptr = fopen(getenv("OUTPUT_PATH"), "w");
 
-    char* s = readline();
+    char* q_endptr;
+    char* q_str = readline();
+    int q = strtol(q_str, &q_endptr, 10);
 
-    char* result = encryption(s);
+    if (q_endptr == q_str || *q_endptr != '\0') { exit(EXIT_FAILURE); }
 
-    fprintf(fptr, "%s\n", result);
+    for (int q_itr = 0; q_itr < q; q_itr++) {
+        char* s1 = readline();
+
+        char* s2 = readline();
+
+        char* result = twoStrings(s1, s2);
+
+        fprintf(fptr, "%s\n", result);
+    }
 
     fclose(fptr);
 

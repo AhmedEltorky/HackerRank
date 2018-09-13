@@ -11,47 +11,34 @@
 FILE* fptr;
 char* readline();
 
-// Complete the encryption function below.
-
-// Please either make the string static or allocate on the heap. For example,
-// static char str[] = "hello world";
-// return str;
-//
-// OR
-//
-// char* str = "hello world";
-// return str;
-//
-char* encryption(char* s) {
-    int l = sqrt(strlen(s));
-    if (l*l != strlen(s)){
-        l+=1;        
-    }
-    static char *ans;
-    ans = malloc((strlen(s) * sizeof(char) + l - 1));
-    int index = 0;
+// Complete the marsExploration function below.
+int marsExploration(char* s) {
+    int counter = 0;
     
-    for (int i = 0;i < l;i++){
-        for (int j = i;j < strlen(s);j+=l){
-            ans[index] = s[j];
-            index++;
+    for (int i = 0;i < strlen(s);i+=3){
+        if (s[i] != 'S'){
+            counter++;            
         }
-        ans[index] = ' ';
-        index++;            
+        if (s[i+1] != 'O'){
+            counter++;                 
+        }
+        if (s[i+2] != 'S'){
+            counter++;                     
+        }
     }
-    ans[index] = '\0';
-    return ans;
+    
+    return counter;
 }
 
 int main()
 {
-    fptr = fopen(getenv("OUTPUT_PATH"), "w");
+    FILE* fptr = fopen(getenv("OUTPUT_PATH"), "w");
 
     char* s = readline();
 
-    char* result = encryption(s);
+    int result = marsExploration(s);
 
-    fprintf(fptr, "%s\n", result);
+    fprintf(fptr, "%d\n", result);
 
     fclose(fptr);
 
